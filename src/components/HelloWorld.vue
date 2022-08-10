@@ -102,7 +102,7 @@
           <label>Fabricante: </label>
           <select v-model="fabric">
             <option
-              v-for="fabricante in fabricantes"
+              v-for="fabricante in fabri"
               :key="fabricante.id"
               :value="fabricante.fab"
             >
@@ -116,7 +116,7 @@
         <p class="p1">
           <label>Cores: </label>
           <select v-model="cor">
-            <option v-for="cor in cores" :key="cor.id" :value="cor.tipo">
+            <option v-for="cor in co" :key="cor.id" :value="cor.tipo">
               {{ cor.tipo }}
             </option>
           </select>
@@ -125,7 +125,7 @@
           <label>Tamanhos: </label>
           <select v-model="tamanho">
             <option
-              v-for="tamanho in tamanhos"
+              v-for="tamanho in taman"
               :key="tamanho.id"
               :value="tamanho.tam"
             >
@@ -151,6 +151,10 @@
 </template>
 
 <script>
+import { tamanhos } from "../data/tamanhos.js";
+import { cores } from "../data/cores";
+import { fabricantes } from "../data/fabricantes";
+
 export default {
   name: "HelloWorld",
   props: {
@@ -158,43 +162,9 @@ export default {
   },
   data() {
     return {
-      tamanhos: [
-        { id: 1, tam: "30" },
-        { id: 2, tam: "31" },
-        { id: 3, tam: "32" },
-        { id: 4, tam: "33" },
-        { id: 5, tam: "34" },
-        { id: 6, tam: "35" },
-        { id: 7, tam: "36" },
-        { id: 8, tam: "37" },
-        { id: 9, tam: "38" },
-        { id: 10, tam: "39" },
-        { id: 11, tam: "40" },
-        { id: 12, tam: "41" },
-        { id: 13, tam: "42" },
-        { id: 14, tam: "43" },
-        { id: 15, tam: "44" },
-      ],
-      cores: [
-        { id: 1, tipo: "Branco" },
-        { id: 2, tipo: "Laranja" },
-        { id: 3, tipo: "Amarelo" },
-        { id: 4, tipo: "Azul" },
-        { id: 5, tipo: "Vermelho" },
-        { id: 6, tipo: "Cinza" },
-      ],
-      fabricantes: [
-        { id: 1, fab: "Nike" },
-        { id: 2, fab: "Adidas" },
-        { id: 3, fab: "Mizuno" },
-        { id: 4, fab: "New Balance" },
-        { id: 5, fab: "All Star" },
-        { id: 6, fab: "Fila" },
-        { id: 7, fab: "Asics" },
-        { id: 8, fab: "Puma" },
-        { id: 9, fab: "Olympikus" },
-        { id: 10, fab: "Reebok" },
-      ],
+      taman: [],
+      co: [],
+      fabri: [],
       usuarios: [
         {
           id: 1,
@@ -281,10 +251,14 @@ export default {
       this.preco = "";
     },
   },
+  mounted() {
+    this.taman = tamanhos;
+    this.co = cores;
+    this.fabri = fabricantes;
+  },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;
