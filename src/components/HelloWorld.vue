@@ -300,6 +300,7 @@
         @click="adicionarVariacao()"
         >Teste</CompButton
       >
+      <br /><br />
       <!-- -->
       <section>
         <div
@@ -342,32 +343,7 @@
         />
       </div>
       <!-- -->
-      <section class="geral">
-        <section class="lista">
-          <hr />
-          <ul v-for="(produto, index) in produtos" :key="index">
-            <li>
-              <p>id: <br />{{ produto.id }}</p>
-            </li>
-            <li>
-              <p>EAN: <br />{{ produto.ean }}</p>
-            </li>
-            <li>
-              <p>Código Interno: <br />{{ produto.codIn }}</p>
-            </li>
-            <li>
-              <p>Descrição: <br />{{ produto.desc }}</p>
-            </li>
-
-            <li>
-              <p>Detalhes: <br />{{ produto.detalhe }}</p>
-            </li>
-            <li>
-              <p>Fabricante: <br />{{ produto.fabric }}</p>
-            </li>
-          </ul>
-        </section>
-      </section>
+      <br /><br />
     </div>
   </div>
 </template>
