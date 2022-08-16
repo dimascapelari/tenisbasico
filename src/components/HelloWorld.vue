@@ -341,6 +341,8 @@
 
     <!-- -->
     <hr />
+
+    <hr />
   </div>
 </template>
 
@@ -350,6 +352,9 @@ import { cores } from "../data/cores";
 import { fabricantes } from "../data/fabricantes";
 
 export default {
+  components: {
+    // CompVariacoes,
+  },
   name: "HelloWorld",
   props: {
     msg: String,
@@ -376,7 +381,7 @@ export default {
           desc: "Sapatilha",
           detalhe: "Casual",
           fabric: "Moleca",
-          variacoes: [{ cor: "Branco", tamanho: "38", preco: "200,00" }],
+          variacoes: [{ cor: "Laranja", tamanho: "39", preco: "300,00" }],
         },
         {
           id: 3,
@@ -385,7 +390,7 @@ export default {
           desc: "Sapatênis",
           detalhe: "Esporte",
           fabric: "Asics",
-          variacoes: [{ cor: "Branco", tamanho: "38", preco: "200,00" }],
+          variacoes: [{ cor: "Azul", tamanho: "40", preco: "400,00" }],
         },
         {
           id: 4,
@@ -394,7 +399,7 @@ export default {
           desc: "Coturno",
           detalhe: "Couro",
           fabric: "Freeway",
-          variacoes: [{ cor: "Branco", tamanho: "38", preco: "200,00" }],
+          variacoes: [{ cor: "Cinza", tamanho: "41", preco: "500,00" }],
         },
       ],
       produto: {
@@ -413,20 +418,10 @@ export default {
       const variacao = { cor: "", tamanho: "", preco: "" };
       this.produto.variacoes.push(variacao);
     },
-    // addVariation() {
-    //   const vari = {
-    //     cor: null,
-    //     tamanho: null,
-    //     preco: null,
-    //   };
-
-    //   this.produtos.variacoes.push(vari);
-    //   console.log(this.variacoes);
+    // teste() {
+    //   var parte2 = document.querySelector(".parte2");
+    //   parte2.style.visibility = "visible";
     // },
-    teste() {
-      var parte2 = document.querySelector(".parte2");
-      parte2.style.visibility = "visible";
-    },
 
     deletar(parametro) {
       this.produtos.splice(parametro, 1);
