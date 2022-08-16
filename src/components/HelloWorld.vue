@@ -10,6 +10,138 @@
       Não existem registros de usuários !
     </div>
 
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      Modal
+    </button>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Adicionar Produtos
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <section class="cadastro">
+              <section class="parte1">
+                <div class="form-group">
+                  <span class="p-float-label">
+                    <p>
+                      <InputText
+                        placeholder="Digite um id"
+                        type="text"
+                        v-model="produto.id"
+                        name="idProduto"
+                        class="p-inputtextarea"
+                      />
+                      <label for="username">- Digite o id</label>
+                    </p>
+                  </span>
+
+                  <span class="p-float-label">
+                    <p>
+                      <InputText
+                        placeholder="Código EAN"
+                        type="text"
+                        v-model="produto.ean"
+                        name="eanProduto"
+                        class="p-inputtextarea"
+                      />
+                      <label for="username">- Código EAN</label>
+                    </p>
+                  </span>
+
+                  <span class="p-float-label">
+                    <p>
+                      <InputText
+                        placeholder="Código Interno"
+                        type="text"
+                        v-model="produto.codIn"
+                        name="codInProduto"
+                        class="p-inputtextarea"
+                      />
+                      <label for="username">- Código Interno</label>
+                    </p>
+                  </span>
+
+                  <span class="p-float-label">
+                    <p>
+                      <InputText
+                        placeholder="Descrição"
+                        type="text"
+                        v-model="produto.desc"
+                        name="descInProduto"
+                        class="p-inputtextarea"
+                      />
+                      <label for="username">- Descrição</label>
+                    </p>
+                  </span>
+
+                  <span class="p-float-label">
+                    <p>
+                      <InputText
+                        placeholder="Digite um Detalhamento"
+                        type="text"
+                        v-model="produto.detalhe"
+                        name="detalheProduto"
+                        class="p-inputtextarea"
+                      />
+                      <label for="username">- Detalhamento</label>
+                    </p>
+                  </span>
+
+                  <div>
+                    <p>
+                      <label>Fabricante: </label>
+                      <select class="p-cascadeselect" v-model="produto.fabric">
+                        <option
+                          v-for="fabricante in fabri"
+                          :key="fabricante.id"
+                          :value="fabricante.fab"
+                        >
+                          {{ fabricante.fab }}
+                        </option>
+                      </select>
+                    </p>
+                  </div>
+                </div>
+              </section>
+            </section>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <table class="table table-striped" v-show="produtos.length > 0">
       <thead>
         <tr>
@@ -19,127 +151,171 @@
           <th>Descrição</th>
           <th>Detalhamento</th>
           <th>Fabricante</th>
-          <th>Cor</th>
-          <th>Tamanho</th>
-          <th>Preço</th>
           <th></th>
         </tr>
       </thead>
 
       <tbody>
-        <tr v-for="(produto, index) in produtos" :key="produto.id">
-          <td>{{ produto.id }}</td>
-          <td>{{ produto.ean }}</td>
-          <td>{{ produto.codIn }}</td>
-          <td>{{ produto.desc }}</td>
-          <td>{{ produto.detalhe }}</td>
-          <td>{{ produto.fabric }}</td>
-          <td>{{ produto.cor }}</td>
-          <td>{{ produto.tamanho }}</td>
-          <td>{{ produto.preco }}</td>
-          <td>
-            <CompButton class="p-button-danger" @click="deletar(index)">
-              Remover
-            </CompButton>
-          </td>
-        </tr>
+        <template v-for="(produto, index) in produtos" :key="produto.id">
+          <tr>
+            <td>{{ produto.id }}</td>
+            <td>{{ produto.ean }}</td>
+            <td>{{ produto.codIn }}</td>
+            <td>{{ produto.desc }}</td>
+            <td>{{ produto.detalhe }}</td>
+            <td>{{ produto.fabric }}</td>
+            <td>
+              <CompButton class="p-button-danger" @click="deletar(index)">
+                Remover
+              </CompButton>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">
+              <div class="table-box">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Cor</th>
+                      <th>Tamanho</th>
+                      <th>Preço</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(variacao, index) in produto.variacoes"
+                      :key="index"
+                    >
+                      <td>{{ variacao.cor }}</td>
+                      <td>{{ variacao.tamanho }}</td>
+                      <td>{{ variacao.preco }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </template>
       </tbody>
     </table>
 
-    <div class="form-group">
-      <span class="p-float-label">
-        <p>
-          <InputText
-            placeholder="Digite um id"
-            type="text"
-            v-model="id"
-            name="idProduto"
-            class="p-inputtextarea"
-          />
-          <label for="username">Digite um id</label>
-        </p>
-      </span>
+    <CompButton class="p-button-raised p-button-rounded" @click="adicionar()"
+      >Adicionar</CompButton
+    >
 
-      <span class="p-float-label">
-        <p>
-          <InputText
-            placeholder="Código EAN"
-            type="text"
-            v-model="ean"
-            name="eanProduto"
-            class="p-inputtextarea"
-          />
-          <label for="username">Código EAN</label>
-        </p>
-      </span>
+    <hr />
 
-      <span class="p-float-label">
-        <p>
-          <InputText
-            placeholder="Código Interno"
-            type="text"
-            v-model="codIn"
-            name="codInProduto"
-            class="p-inputtextarea"
-          />
-          <label for="username">Código Interno</label>
-        </p>
-      </span>
+    <section class="cadastro">
+      <section class="parte1">
+        <div class="form-group">
+          <span class="p-float-label">
+            <p>
+              <InputText
+                placeholder="Digite um id"
+                type="text"
+                v-model="produto.id"
+                name="idProduto"
+                class="p-inputtextarea"
+              />
+              <label for="username">- Digite o id</label>
+            </p>
+          </span>
 
-      <span class="p-float-label">
-        <p>
-          <InputText
-            placeholder="Descrição"
-            type="text"
-            v-model="desc"
-            name="descInProduto"
-            class="p-inputtextarea"
-          />
-          <label for="username">Descrição</label>
-        </p>
-      </span>
+          <span class="p-float-label">
+            <p>
+              <InputText
+                placeholder="Código EAN"
+                type="text"
+                v-model="produto.ean"
+                name="eanProduto"
+                class="p-inputtextarea"
+              />
+              <label for="username">- Código EAN</label>
+            </p>
+          </span>
 
-      <span class="p-float-label">
-        <p>
-          <InputText
-            placeholder="Digite um Detalhamento"
-            type="text"
-            v-model="detalhe"
-            name="detalheProduto"
-            class="p-inputtextarea"
-          />
-          <label for="username">Detalhamento</label>
-        </p>
-      </span>
+          <span class="p-float-label">
+            <p>
+              <InputText
+                placeholder="Código Interno"
+                type="text"
+                v-model="produto.codIn"
+                name="codInProduto"
+                class="p-inputtextarea"
+              />
+              <label for="username">- Código Interno</label>
+            </p>
+          </span>
 
-      <div class="fabricantes">
-        <p>
-          <label>Fabricante: </label>
-          <select class="p-cascadeselect" v-model="fabric">
-            <option
-              v-for="fabricante in fabri"
-              :key="fabricante.id"
-              :value="fabricante.fab"
-            >
-              {{ fabricante.fab }}
-            </option>
-          </select>
-        </p>
-      </div>
+          <span class="p-float-label">
+            <p>
+              <InputText
+                placeholder="Descrição"
+                type="text"
+                v-model="produto.desc"
+                name="descInProduto"
+                class="p-inputtextarea"
+              />
+              <label for="username">- Descrição</label>
+            </p>
+          </span>
 
-      <div class="variacoes">
-        <p>
-          <label>Cores: </label>
-          <select class="p-cascadeselect" v-model="cor">
+          <span class="p-float-label">
+            <p>
+              <InputText
+                placeholder="Digite um Detalhamento"
+                type="text"
+                v-model="produto.detalhe"
+                name="detalheProduto"
+                class="p-inputtextarea"
+              />
+              <label for="username">- Detalhamento</label>
+            </p>
+          </span>
+
+          <div>
+            <p>
+              <label>Fabricante: </label>
+              <select class="p-cascadeselect" v-model="produto.fabric">
+                <option
+                  v-for="fabricante in fabri"
+                  :key="fabricante.id"
+                  :value="fabricante.fab"
+                >
+                  {{ fabricante.fab }}
+                </option>
+              </select>
+            </p>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <CompButton
+      class="p-button-raised p-button-rounded"
+      @click="adicionarVariacao()"
+      >Variação</CompButton
+    >
+    <br />
+    <br />
+    <!-- -->
+    <section>
+      <div
+        class="variacoes"
+        v-for="(variacao, index) in produto.variacoes"
+        :key="index"
+      >
+        <div class="variacoes-input-container">
+          <label for="cores">Cores:</label>
+          <select name="cores" id="cores" v-model="variacao.cor">
             <option v-for="cor in co" :key="cor.id" :value="cor.tipo">
               {{ cor.tipo }}
             </option>
           </select>
-        </p>
-
-        <p>
-          <label>Tamanhos: </label>
-          <select class="p-cascadeselect" v-model="tamanho">
+        </div>
+        <div class="variacoes-input-container">
+          <label for="tamanho">Tamanho:</label>
+          <select name="descricao" id="tamanho" v-model="variacao.tamanho">
             <option
               v-for="tamanho in taman"
               :key="tamanho.id"
@@ -148,203 +324,23 @@
               {{ tamanho.tam }}
             </option>
           </select>
-        </p>
-      </div>
-
-      <span class="p-float-label">
-        <p>
-          <InputText
-            placeholder="Digite o valor"
-            type="text"
-            v-model="preco"
-            name="precoProduto"
-            class="p-inputtextarea"
-          />
-          <label for="username">Digite o valor</label>
-        </p>
-      </span>
-
-      <CompButton class="p-button-raised p-button-rounded" @click="adicionar()"
-        >Adicionar</CompButton
-      >
-
-      <hr />
-
-      <section class="cadastro">
-        <section class="parte1">
-          <div class="form-group">
-            <span class="p-float-label">
-              <p>
-                <InputText
-                  placeholder="Digite um id"
-                  type="text"
-                  v-model="id"
-                  name="idProduto"
-                  class="p-inputtextarea"
-                />
-                <label for="username">- Digite o id</label>
-              </p>
-            </span>
-
-            <span class="p-float-label">
-              <p>
-                <InputText
-                  placeholder="Código EAN"
-                  type="text"
-                  v-model="ean"
-                  name="eanProduto"
-                  class="p-inputtextarea"
-                />
-                <label for="username">- Código EAN</label>
-              </p>
-            </span>
-
-            <span class="p-float-label">
-              <p>
-                <InputText
-                  placeholder="Código Interno"
-                  type="text"
-                  v-model="codIn"
-                  name="codInProduto"
-                  class="p-inputtextarea"
-                />
-                <label for="username">- Código Interno</label>
-              </p>
-            </span>
-
-            <span class="p-float-label">
-              <p>
-                <InputText
-                  placeholder="Descrição"
-                  type="text"
-                  v-model="desc"
-                  name="descInProduto"
-                  class="p-inputtextarea"
-                />
-                <label for="username">- Descrição</label>
-              </p>
-            </span>
-
-            <span class="p-float-label">
-              <p>
-                <InputText
-                  placeholder="Digite um Detalhamento"
-                  type="text"
-                  v-model="detalhe"
-                  name="detalheProduto"
-                  class="p-inputtextarea"
-                />
-                <label for="username">- Detalhamento</label>
-              </p>
-            </span>
-
-            <div>
-              <p>
-                <label>Fabricante: </label>
-                <select class="p-cascadeselect" v-model="fabric">
-                  <option
-                    v-for="fabricante in fabri"
-                    :key="fabricante.id"
-                    :value="fabricante.fab"
-                  >
-                    {{ fabricante.fab }}
-                  </option>
-                </select>
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section class="parte2">
-          <section class="varia">
-            <p class="p1">
-              <label>Cores: </label>
-              <select class="p-cascadeselect" v-model="cor">
-                <option v-for="cor in co" :key="cor.id" :value="cor.tipo">
-                  {{ cor.tipo }}
-                </option>
-              </select>
-            </p>
-
-            <p class="p1">
-              <label>Tamanhos: </label>
-              <select class="p-cascadeselect" v-model="tamanho">
-                <option
-                  v-for="tamanho in taman"
-                  :key="tamanho.id"
-                  :value="tamanho.tam"
-                >
-                  {{ tamanho.tam }}
-                </option>
-              </select>
-            </p>
-
-            <span class="p-float-label">
-              <p>
-                <InputText
-                  placeholder="Digite o valor"
-                  type="text"
-                  v-model="preco"
-                  name="precoProduto"
-                  class="p-inputtextarea"
-                />
-                <label for="username">Valor</label>
-              </p>
-            </span>
-          </section>
-        </section>
-      </section>
-
-      <CompButton
-        class="p-button-raised p-button-rounded"
-        @click="adicionarVariacao()"
-        >Teste</CompButton
-      >
-      <br /><br />
-      <!-- -->
-      <section>
-        <div
-          class="variacoes"
-          v-for="(variacao, index) in variacoes"
-          :key="index"
-        >
-          <div class="variacoes-input-container">
-            <label for="cores">Cores:</label>
-            <select name="cores" id="cores" v-model="variacao.cor">
-              <option v-for="cor in co" :key="cor.id" :value="cor.tipo">
-                {{ cor.tipo }}
-              </option>
-            </select>
-          </div>
         </div>
-      </section>
 
-      <div class="variacoes-input-container">
-        <label for="tamanho">Tamanho:</label>
-        <select name="descricao" id="tamanho" v-model="tamanho">
-          <option
-            v-for="tamanho in taman"
-            :key="tamanho.id"
-            :value="tamanho.tam"
-          >
-            {{ tamanho.tam }}
-          </option>
-        </select>
+        <div class="variacoes-input-container">
+          <label for="nome">Preço:</label>
+          <input
+            type="text"
+            id="preco"
+            name="preco"
+            v-model="variacao.preco"
+            placeholder="Digite valor"
+          />
+        </div>
       </div>
+    </section>
 
-      <div class="variacoes-input-container">
-        <label for="nome">Preço:</label>
-        <input
-          type="text"
-          id="preco"
-          name="preco"
-          v-model="preco"
-          placeholder="Digite valor"
-        />
-      </div>
-      <!-- -->
-      <br /><br />
-    </div>
+    <!-- -->
+    <hr />
   </div>
 </template>
 
@@ -360,8 +356,6 @@ export default {
   },
   data() {
     return {
-      // variacoes: [{ cor: "", tamanho: "", preco: "" }],
-      variacoes: [{ cor: "", tamanho: "", preco: "" }],
       taman: [],
       co: [],
       fabri: [],
@@ -373,9 +367,7 @@ export default {
           desc: "Ténis",
           detalhe: "Cano alto",
           fabric: "Nike",
-          cor: "Branco",
-          tamanho: "38",
-          preco: "200,00",
+          variacoes: [{ cor: "Branco", tamanho: "38", preco: "200,00" }],
         },
         {
           id: 2,
@@ -384,9 +376,7 @@ export default {
           desc: "Sapatilha",
           detalhe: "Casual",
           fabric: "Moleca",
-          cor: "Laranja",
-          tamanho: "37",
-          preco: "250,00",
+          variacoes: [{ cor: "Branco", tamanho: "38", preco: "200,00" }],
         },
         {
           id: 3,
@@ -395,9 +385,7 @@ export default {
           desc: "Sapatênis",
           detalhe: "Esporte",
           fabric: "Asics",
-          cor: "Cinza",
-          tamanho: "40",
-          preco: "300,00",
+          variacoes: [{ cor: "Branco", tamanho: "38", preco: "200,00" }],
         },
         {
           id: 4,
@@ -406,26 +394,24 @@ export default {
           desc: "Coturno",
           detalhe: "Couro",
           fabric: "Freeway",
-          cor: "Preto",
-          tamanho: "41",
-          preco: "350,00",
+          variacoes: [{ cor: "Branco", tamanho: "38", preco: "200,00" }],
         },
       ],
-      id: "",
-      detalhe: "",
-      ean: "",
-      codIn: "",
-      desc: "",
-      fabric: "",
-      cor: "",
-      tamanho: "",
-      preco: "",
+      produto: {
+        id: "",
+        detalhe: "",
+        ean: "",
+        codIn: "",
+        desc: "",
+        fabric: "",
+        variacoes: [],
+      },
     };
   },
   methods: {
     adicionarVariacao() {
       const variacao = { cor: "", tamanho: "", preco: "" };
-      this.variacoes.push(variacao);
+      this.produto.variacoes.push(variacao);
     },
     // addVariation() {
     //   const vari = {
@@ -447,27 +433,18 @@ export default {
     },
 
     adicionar() {
-      this.produtos.push({
-        id: this.id,
-        detalhe: this.detalhe,
-        ean: this.ean,
-        codIn: this.codIn,
-        desc: this.desc,
-        fabric: this.fabric,
-        cor: this.cor,
-        tamanho: this.tamanho,
-        preco: this.preco,
-      });
+      console.log(this.produto);
+      this.produtos.push(this.produto);
 
-      this.id = "";
-      this.detalhe = "";
-      this.ean = "";
-      this.codIn = "";
-      this.desc = "";
-      this.fabric = "";
-      this.cor = "";
-      this.tamanho = "";
-      this.preco = "";
+      this.produto = {
+        id: "",
+        detalhe: "",
+        ean: "",
+        codIn: "",
+        desc: "",
+        fabric: "",
+        variacoes: [],
+      };
     },
   },
   mounted() {
@@ -479,6 +456,15 @@ export default {
 </script>
 
 <style scoped>
+.table-box {
+  width: 400px;
+  margin: 0px auto;
+}
+
+.table-box table {
+  width: 100%;
+}
+
 h3 {
   margin: 40px 0 0;
 }
